@@ -26,7 +26,7 @@ function createAapImages() {
         aapPlaatje.id = (i + 1);
         aapPlaatje.addEventListener("click", function () {
             maakFavoriet(this.id);
-        })
+        });
         pictureHolder[i].appendChild(favoriet);
         pictureHolder[i].appendChild(aapPlaatje);
     }
