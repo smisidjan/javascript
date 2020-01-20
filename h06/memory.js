@@ -1,36 +1,65 @@
-memory = document.getElementById("memory");
+const cards = document.querySelectorAll('.memory-card');
 
-createMemoryHolders();
-createMemoryImages();
+let hasFlippedCard = false;
+let lockBoard = false;
+let firstCard, secondCard;
 
-function createMemoryHolders() {
-    for (var i = 0; i < 18; i++) {
-        var memoryHolder = document.createElement("div");
-        memoryHolder.className = "memory-holder";
-        memoryHolder.id = "memory-holder-" + i;
-        memory.appendChild(memoryHolder);
+function flipCard() {
+    if (lockBoard) return;
+    if (this === firstCard) return;
+
+    this.classList.add('flip');
+
+    if (!hasFlippedCard) {
+        //eerste klik
+        hasFlippedCard = true;
+        firstCard = this;
+
+        return;
     }
+    //tweede klik
+    secondCard = this;
+
+    checksMatch();
 }
 
-function createMemoryImages(memoryHolder) {
-    memoryNumbers = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9];
-    memoryHolder = document.getElementsByClassName("memory-holder");
+function checksMatch() {
+    //matchen de kaarten?
+    let isMatch = firstCard.dataset.name  === secondCard.dataset.name;
 
-    for (var i = 0; i < memoryHolder.length; i++) {
-
-        var memoryPlaatje = document.createElement("img");
-        memoryPlaatje.src = "images/memory" + memoryNumbers[i] + ".jpg";
-        memoryHolder[i].appendChild(memoryPlaatje);
-
-        memoryPlaatje.addEventListener("click", function () {
-            memoryPlaatje.style.backgroundImage = "url('images/memory" 
-        })
-
-    }
+    isMatch ? disableCards() : unflippedCards();
 }
 
+function disableCards() {
+    //het is een match
+    firstCard.removeEventListener('click', flipCard);
+    secondCard.removeEventListener('click', flipCard);
 
-slideholder.addEventListener("click", function () {
-    slideholder.style.backgroundImage = "url('../images/aap" + nextAap() + ".jpg')";
-} );
+    resetBoard();
+}
 
+function unflippedCards() {
+    lockBoard = true;
+
+    //geen match
+    setTimeout(() => {
+        firstCard.classList.remove('flip');
+        secondCard.classList.remove('flip');
+
+        resetBoard();
+    }, 1500);
+}
+
+function resetBoard() {
+    [hasFlippedCard, lockBoard] = [false, false];
+    [firstCard, secondCard] = [null, null];
+}
+
+(function shuffle() {
+    cards.forEach(card => {
+        let randomPosition = Math.floor(Math.random() * 18);
+        card.style.order = randomPosition;
+    });
+})();
+
+cards.forEach(card => card.addEventListener('click', flipCard));
