@@ -11,9 +11,18 @@ body {
     display: flex;
     background-color: cornflowerblue;
 }
+
 #page {
     width: 100%;
 }
+
+.info-bar {
+    width: 1200px;
+    height: 80px;
+    margin: auto;
+    position: center;
+}
+
 .info {
     float: left;
     padding: 10px;
@@ -22,11 +31,11 @@ body {
 }
 
 .info.playerl {
-    width: 33.333%;
+    width: 15%;
 }
 
 .info.aandebeurt {
-    width: 33.333%;
+    width: 65%;
     background-color: #ffb8f5;
     color: white;
     font-weight: bold;
@@ -34,14 +43,13 @@ body {
     border: 4px solid black;
 }
 
-
 .info.playerr {
-    width: 33.333%;
+    width: 15%;
+    float: right;
 }
 
 .info.playerr, .info.playerl {
-    width: auto;
-    height: auto;
+    text-align: center;
     border: 5px solid black;
     background-color: #ffea8f;
 }
@@ -88,3 +96,18 @@ body {
 .voorkant {
     transform: rotateY(180deg);
 }
+
+#gewonnen {
+    padding: 20px;
+    visibility: hidden;
+    width: 300px;
+    height: auto;
+    font-size: 20px;
+    text-align: center;
+    background-color: #ffb8f5;
+    color: black;
+    font-weight: bold;
+    position: absolute;
+    left: 40%;
+}
+

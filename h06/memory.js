@@ -58,7 +58,7 @@ function checksMatch() {
     isMatch ? disableCards() : unflippedCards();
 
     //puntentelling
-    if (isMatch === true) {
+    if (isMatch) {
         if (player1Beurt) {
             player1Score += 1;
             document.getElementById("player1").innerHTML = "Speler 1: " + player1Score;
@@ -73,14 +73,22 @@ function checksMatch() {
 }
 
 function winnendeSpeler() {
-    if (player1Score || player2Score === 9) {
+    if ( player1Score + player2Score === 9) {
         if (player1Score > player2Score) {
-            document.getElementById("gewonnen").textContent = "Speler 1 heeft het spel gewonnen.";
+            document.getElementById("gewonnen").textContent = "Speler 1 heeft het spel gewonnen!!";
+            document.getElementById("gewonnen").style.border = "5px solid red";
+            document.getElementById("player1").style.border = "5px solid red";
+            document.getElementById("aandebeurt").style.border = "5px solid red";
+            document.getElementById("player2").style.border = "5px solid red";
         } else {
-            document.getElementById("gewonnen").textContent = "Speler 2 heeft het spel gewonnen.";
+            document.getElementById("gewonnen").textContent = "Speler 2 heeft het spel gewonnen!!";
+            document.getElementById("gewonnen").style.border = "5px solid blue";
+            document.getElementById("player1").style.border = "5px solid blue";
+            document.getElementById("aandebeurt").style.border = "5px solid blue";
+            document.getElementById("player2").style.border = "5px solid blue";
         }
         document.getElementById("gewonnen").style.visibility = "unset";
-    } else return;
+    }
 }
 
 function disableCards() {
