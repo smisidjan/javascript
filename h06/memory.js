@@ -3,6 +3,11 @@ const cards = document.querySelectorAll('.memory-card');
 let hasFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
+let player1Beurt = true;
+let player2Beurt = false;
+let player1Score = 0;
+let player2Score = 0;
+
 
 function flipCard() {
     if (lockBoard) return;
@@ -20,18 +25,67 @@ function flipCard() {
     //tweede klik
     secondCard = this;
 
+    aanDeBeurt();
     checksMatch();
+    winnendeSpeler();
+}
+
+function aanDeBeurt() {
+    setTimeout(() => {
+        if (secondCard) {
+            if (player1Beurt) {
+                document.getElementById("player2").style.border = "5px solid blue";
+                document.getElementById("player1").style.border = "5px solid black";
+                document.getElementById("aandebeurt").innerHTML = "Aan de beurt: Speler 2";
+                player1Beurt = false;
+                player2Beurt = true;
+            } else {
+                document.getElementById("player1").style.border = "5px solid red";
+                document.getElementById("player2").style.border = "5px solid black";
+                document.getElementById("aandebeurt").innerHTML = "Aan de beurt: Speler 1";
+                player1Beurt = true;
+                player2Beurt = false;
+            }
+        }
+    }, 1500);
 }
 
 function checksMatch() {
     //matchen de kaarten?
-    let isMatch = firstCard.dataset.name  === secondCard.dataset.name;
+    //kijken of 'data-name' hetzelfde is
+    let isMatch = firstCard.dataset.name === secondCard.dataset.name;
 
     isMatch ? disableCards() : unflippedCards();
+
+    //puntentelling
+    if (isMatch === true) {
+        if (player1Beurt) {
+            player1Score += 1;
+            document.getElementById("player1").innerHTML = "Speler 1: " + player1Score;
+            document.getElementById("aandebeurt").innerHTML = "Aan de beurt: Speler 1";
+        } else {
+            player2Score += 1;
+            document.getElementById("player2").innerHTML = "Speler 2: " + player2Score;
+            document.getElementById("aandebeurt").innerHTML = "Aan de beurt: Speler 2";
+        }
+        aanDeBeurt();
+    }
+}
+
+function winnendeSpeler() {
+    if (player1Score || player2Score === 9) {
+        if (player1Score > player2Score) {
+            document.getElementById("gewonnen").textContent = "Speler 1 heeft het spel gewonnen.";
+        } else {
+            document.getElementById("gewonnen").textContent = "Speler 2 heeft het spel gewonnen.";
+        }
+        document.getElementById("gewonnen").style.visibility = "unset";
+    } else return;
 }
 
 function disableCards() {
     //het is een match
+    //je kunt niet meer klikken
     firstCard.removeEventListener('click', flipCard);
     secondCard.removeEventListener('click', flipCard);
 
@@ -39,9 +93,11 @@ function disableCards() {
 }
 
 function unflippedCards() {
+    //andere kaarten locken
     lockBoard = true;
 
     //geen match
+    //remove flip
     setTimeout(() => {
         firstCard.classList.remove('flip');
         secondCard.classList.remove('flip');
@@ -50,15 +106,16 @@ function unflippedCards() {
     }, 1500);
 }
 
+// filmpje kijken voor uitleg
 function resetBoard() {
     [hasFlippedCard, lockBoard] = [false, false];
     [firstCard, secondCard] = [null, null];
 }
 
 (function shuffle() {
+    //elke kaart een random order nummer geven voor de positie
     cards.forEach(card => {
-        let randomPosition = Math.floor(Math.random() * 18);
-        card.style.order = randomPosition;
+        card.style.order = Math.floor(Math.random() * 18);
     });
 })();
 
