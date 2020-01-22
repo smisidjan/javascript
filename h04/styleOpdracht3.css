@@ -1,0 +1,19 @@
+img {
+    height: 280px;
+    width: 600px;
+}
+#crookAppOgen {
+    height: 280px;
+    width: 600px;
+    border: 1px solid black;
+}
+#crookAppNeus {
+    height: 69px;
+    width: 600px;
+    border: 1px solid black;
+}
+#crookAppKin {
+    height: 245px;
+    width: 600px;
+    border: 1px solid black;
+}
